@@ -116,17 +116,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        Deque<Integer> d = new Deque<Integer>();
-        d.addLast(3);
-        d.addLast(4);
-        d.addLast(5);
-        d.addFirst(2);
-        d.addFirst(1);
-        d.removeFirst();
-        d.removeLast();
-        for (Integer i : d) {
-            System.out.println(i);
-        }
+        
 
     }
 
