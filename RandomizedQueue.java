@@ -59,10 +59,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // add one because we want the numbers to line up with the removal of the element
         int selectedRandomNode = (StdRandom.uniform(N) + 1);
 
-        // System.out.println("Random Node to be deleted is... " + selectedRandomNode + " and N is... " + N);
+        // System.out.println(
+        //         "Random Node to be deleted is... " + selectedRandomNode + " and N is... " + N);
 
         Item item;
-        current = first.next;
+        current = first;
         // if the Node is the first of the list
         if (selectedRandomNode == 1) {
             item = first.item;
@@ -78,7 +79,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         }
         // move to the random node
-        for (int i = 2; i < selectedRandomNode; i++) {
+        for (int i = 1; i < selectedRandomNode; i++) {
 
             // System.out.println(current.item + "current item is");
 
