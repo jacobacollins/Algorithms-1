@@ -11,14 +11,14 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    private Node first, current, last;
+    private Node<Item> first, current, last;
     private int N = 0;
 
     // Queue uses LL implementation so we need a node class
-    private class Node {
-        Item item;
-        Node next;
-        Node prev;
+    private class Node<Item> {
+        private Item item;
+        private Node<Item> next;
+        private Node<Item> prev;
     }
 
     // construct an empty randomized queue
@@ -42,8 +42,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null) throw new IllegalArgumentException();
 
-        Node oldLast = last;
-        last = new Node();
+        Node<Item> oldLast = last;
+        last = new Node<Item>();
         last.prev = oldLast;
         last.item = item;
         if (isEmpty()) first = last;
@@ -64,29 +64,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         Item item;
         current = first;
+        // single item list
+        if (N == 1) {
+            item = first.item;
+            first = null;
+            current = null;
+            N--;
+            return item;
+        }
         // if the Node is the first of the list
         if (selectedRandomNode == 1) {
             item = first.item;
             // if the node is the only one in the list
-            if (N == 1) {
-                first = null;
-                N--;
-                return item;
-            }
+
             first = first.next;
             first.prev = null;
             N--;
             return item;
 
         }
-        // move to the random node
-        for (int i = 1; i < selectedRandomNode; i++) {
 
-            // System.out.println(current.item + "current item is");
-
-            current = current.next;
-
-        }
 
         // if the random node is the last node
         if (selectedRandomNode == N) {
@@ -97,7 +94,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             return item;
         }
         else {
+            for (int i = 1; i < selectedRandomNode; i++) {
 
+                // System.out.println(current.item + "current item is");
+
+                current = current.next;
+
+            }
             item = current.item;
 
             /* These three lines are why we don't need to do an array implementation for the Randomized Queue
@@ -119,27 +122,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         if (isEmpty()) throw new NoSuchElementException();
-
         int selectedRandomNode = (StdRandom.uniform(N) + 1);
-        Node selected = first;
+        current = first;
 
-        if (selectedRandomNode == 1) return selected.item;
+        if (selectedRandomNode == 1) return current.item;
 
         for (int i = 2; i < selectedRandomNode; i++) {
 
-            selected = selected.next;
+            current = current.next;
         }
-        return selected.item;
+        Item item = current.item;
+        current = null;
+        return item;
     }
 
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        return new QueueIterator();
+        return new QueueIterator(first);
     }
 
     private class QueueIterator implements Iterator<Item> {
-        private Node current = first;
+
+
+        private Node<Item> current;
+
+
+        public QueueIterator(Node<Item> first) {
+            current = first;
+        }
 
         @Override
         public boolean hasNext() {
@@ -162,22 +173,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-        rq.enqueue(1);
-        rq.enqueue(2);
-        rq.enqueue(3);
-        rq.enqueue(4);
-        rq.enqueue(5);
-        rq.enqueue(6);
-        rq.enqueue(7);
-        rq.enqueue(8);
-        rq.enqueue(9);
-        rq.enqueue(10);
+        RandomizedQueue<String> rq = new RandomizedQueue<String>();
+        rq.enqueue("SDCAYTQYKJ");
 
+        rq.dequeue();
 
         System.out.println("\nQueue with randomized removal\n");
-        rq.dequeue();
-        for (Integer i : rq) {
+
+        for (String i : rq) {
             System.out.println("New Queue: " + i);
         }
 
