@@ -70,6 +70,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             // if the node is the only one in the list
             if (N == 1) {
                 first = null;
+                N--;
                 return item;
             }
             first = first.next;
@@ -168,20 +169,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-        rq.enqueue(1);
-        rq.enqueue(2);
-        rq.enqueue(3);
         rq.enqueue(4);
-        rq.enqueue(5);
-        rq.enqueue(6);
-        rq.enqueue(7);
-        rq.enqueue(8);
-        rq.enqueue(9);
-        rq.enqueue(10);
-
-
-        System.out.println("\nQueue with randomized removal\n");
         rq.dequeue();
+        rq.enqueue(2);
+        // rq.dequeue();
+
+
         for (Integer i : rq) {
             System.out.println("New Queue: " + i);
         }
