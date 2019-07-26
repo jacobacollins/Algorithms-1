@@ -1,8 +1,8 @@
-
-// *  Name:
-// *  Date:
-// *  Description:
-
+/* *****************************************************************************
+ *  Name: Jacob Collins
+ *  Date: 7/26/2019
+ *  Description: Randomized Queue implementing LinkedList solution
+ **************************************************************************** */
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -107,16 +107,32 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
             Item item = current.item;
             current = current.next;
             return item;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 
 
     // unit testing (required)
     public static void main(String[] args) {
-        
+        Deque<Integer> d = new Deque<Integer>();
+        d.addLast(3);
+        d.addLast(4);
+        d.addLast(5);
+        d.addFirst(2);
+        d.addFirst(1);
+        d.removeFirst();
+
+        for (Integer i : d) {
+            System.out.println(i);
+        }
 
     }
 
