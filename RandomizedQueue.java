@@ -101,16 +101,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             item = current.item;
 
             /* These three lines are why we don't need to do an array implementation for the Randomized Queue
-             * we move the current reference to the next
-             * a->current->b
-             * a->old current -> b (new current)*/
-            current = current.next;
-            /* then we change the previous reference so it isn't attached to the old current
-             * a (b.prev)-> old current -> b (new current)*/
-            current.prev = current.prev.prev;
-            /* then change the link from the new previous.next to the new current
-             * a (b.prev) -> old current -> b (new current) (a.next)*/
-            current.prev.next = current;
+             */
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            current = null;
 
             /* now the previous current is no longer linked in the list and can be garbage collected*/
 
@@ -169,12 +163,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-        rq.enqueue(4);
-        rq.dequeue();
+        rq.enqueue(1);
         rq.enqueue(2);
-        // rq.dequeue();
+        rq.enqueue(3);
+        rq.enqueue(4);
+        rq.enqueue(5);
+        rq.enqueue(6);
+        rq.enqueue(7);
+        rq.enqueue(8);
+        rq.enqueue(9);
+        rq.enqueue(10);
 
 
+        System.out.println("\nQueue with randomized removal\n");
+        rq.dequeue();
         for (Integer i : rq) {
             System.out.println("New Queue: " + i);
         }
