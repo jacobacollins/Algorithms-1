@@ -21,10 +21,34 @@ public class FastCollinearPoints {
         Point[] aux = points;
         Arrays.sort(aux);
 
-        for (Point i : points) {
+        ArrayList<LineSegment> lineSegment = new ArrayList<LineSegment>();
 
+        for (int i = 0; i < points.length; i++) {
+
+            Point origin = aux[i];
+            Point[] slopeArray = aux;
+            Arrays.sort(aux, origin.slopeOrder());
+
+            int x = 1;
+            while(x < points.length){
+
+                ArrayList<Point> candidatePoints = new ArrayList<Point>();
+                double POSSIBLE_SLOPE = origin.slopeTo(slopeArray[x]);
+
+                while(x < points.length && origin.slopeTo(slopeArray[x]) == POSSIBLE_SLOPE){
+                    candidatePoints.add(slopeArray[x++]);
+                }
+
+
+                if(candidatePoints.size() >= 3 && origin.compareTo(candidatePoints.get(0)) < 0){
+
+                    Point min = origin;
+                    Point max = candidatePoints.remove(candidatePoints.size() - 1);
+                    lineSegment.add(new LineSegment(min , max));
+                }
+            }
         }
-
+        segmentCollection = lineSegment.toArray();
     }
 
     // the number of line segments
